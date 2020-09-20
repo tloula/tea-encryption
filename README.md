@@ -1,3 +1,3 @@
-#Tiny Encryption Algorithm Implementation
-CS-3350 Foundations of Computer Security
-Programming Assignment 2
+# Tiny Encryption Algorithm Implementation
+CS-3350 Foundations of Computer Security<br />
+Programming Assignment 2<br />
