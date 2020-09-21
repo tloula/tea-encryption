@@ -1,6 +1,8 @@
-# Tiny Encryption Algorithm Implementation
-# Ian Bolin & Trevor Loula
-# CS-3350 Foundations of Computer Security
+# ********************************************* #
+# Tiny Encryption Algorithm Implementation      #
+# Ian Bolin & Trevor Loula                      #
+# CS-3350 Foundations of Computer Security      #
+# ********************************************* #
 
 import sys
 from ctypes import *
