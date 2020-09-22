@@ -17,7 +17,9 @@ class Wrapper:
         key = Wrapper.read_file(args[4])
         iv = Wrapper.read_file(args[5])
 
-        return mode, cipher, text, key, iv
+        keys = [hex(int(x, 16)) for x in Wrapper.split_key(key)]
+
+        return mode, cipher, text, keys, iv
 
     @staticmethod
     def read_file(filepath):
@@ -30,8 +32,8 @@ class Wrapper:
             try:
                 text = f.read()
                 text = Wrapper.pad_text(text)
-                if "-H" in filepath:
-                    text = Wrapper.convert_hex(text)
+                if "-H" in filepath and "key" not in filepath:
+                    text = int(text, 16)
                 return text
             finally:
                 f.close()
@@ -42,10 +44,12 @@ class Wrapper:
             text += " "
 
         return text
-
+    
     @staticmethod
-    def convert_hex(hex):
-        return int(hex, 16)
+    def split_key(key):
+        indices = [0, 8, 16, 24]
+        keys = [str(key)[i:j] for i,j in zip(indices, indices[1:]+[None])]
+        return keys
 
     @staticmethod
     def run_tea(params):
@@ -56,17 +60,41 @@ class Wrapper:
         print ("key:", key)         # Key
         print ("iv:", iv)           # Initialization Vector
 
-        if mode == "e":
-            print ("Encrypting")
-            # Pass Ian a Byte String
-            # TODO
-            print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
-        elif mode == "d":
-            print ("Decrypting")
+        if cipher == "ECB":
+            if mode == "e":
+                print ("Encrypting")
+                # Pass Ian a Byte String
+                # TODO
+                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+            elif mode == "d":
+                print ("Decrypting")
+            else:
+                print ("Invalid operation mode")
+        elif cipher == "CBC":
+            if mode == "e":
+                print ("Encrypting")
+                # Pass Ian a Byte String
+                # TODO
+                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+            elif mode == "d":
+                print ("Decrypting")
+            else:
+                print ("Invalid operation mode")
+        elif cipher == "CTR":
+            if mode == "e":
+                print ("Encrypting")
+                # Pass Ian a Byte String
+                # TODO
+                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+            elif mode == "d":
+                print ("Decrypting")
+            else:
+                print ("Invalid operation mode")
         else:
-            print ("Invalid operation mode")
-        return
+            print("Invalid Mode")
+            exit()
 
+        return
 
 def main(args):
 
