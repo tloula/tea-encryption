@@ -13,7 +13,7 @@ class TEA_CBC(tea_algorithm.TEA):
     def encrypt(plaintext, key, iv):
         ciphertext = b""
         for i in range(0, plaintext.len-4, 4):
-            temp = plaintext[i:i+4] ^ iv
+            temp = int.from_bytes(plaintext[i:i+4], "big") ^ iv
             iv = super.encrypt(temp, key)
             ciphertext += iv
         return ciphertext
@@ -22,7 +22,7 @@ class TEA_CBC(tea_algorithm.TEA):
     def decrypt(ciphertext, key, iv):
         plaintext = b""
         for i in range(0, ciphertext.len-4, 4):
-            temp = ciphertext[i:i+4]
+            temp = int.from_bytes(ciphertext[i:i+4], "big")
             plaintext =+ super.encrypt(temp, key) ^ iv
             iv = temp
         return plaintext
