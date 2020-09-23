@@ -36,9 +36,10 @@ class Wrapper:
                 text = f.read()
                 if "-H" in filepath:
                     text = Wrapper.pad_hex(text)
+                    return text.decode("hex")
                 else:
                     text = Wrapper.pad_text(text)
-                return text.encode()
+                    return text.encode()
             finally:
                 f.close()
 
