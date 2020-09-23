@@ -1,4 +1,5 @@
 from tea_algorithm import TEA
+from tea_cbc import TEA_CBC
 
 def test():
     k = [0xbe168aa1, 0x16c498a3, 0x5e87b018, 0x56de7805]
@@ -8,3 +9,17 @@ def test():
 
     print (l)
     print (r)
+
+    iv = [32, 64]
+    v = b"abcdefghabcdefghabcdefghabcdefgh"
+    ciphertext = TEA_CBC.encrypt(v, k, iv)
+    print(ciphertext)
+    print(iv)
+    print(v)
+    plaintext = TEA_CBC.decrypt(ciphertext, k, iv)
+    print(ciphertext)
+    print(iv)
+    print(v)
+    print(plaintext)
+
+test()
