@@ -1,14 +1,17 @@
 # ********************************************* #
-# Tiny Encryption Algorithm Implementation      #
+# Tiny Encryption Algorithm CBC Implementation  #
 # Ian Bolin & Trevor Loula                      #
 # CS-3350 Foundations of Computer Security      #
 # ********************************************* #
 
 import sys
-from ctypes import *
 import tea_algorithm
 
 class TEA_CBC(tea_algorithm.TEA):
+    #bytestrings must be padded to a length of x*8 bytes (64 bits) to align with block length.
+    #this is to allow for different padding schemes
+
+    #input: bytestring, int[4], int[2]
     @staticmethod
     def encrypt(plaintext, key, iv):
         if len(plaintext) % 8 != 0:
@@ -23,6 +26,7 @@ class TEA_CBC(tea_algorithm.TEA):
             iv = [ivLeft, ivRight]
         return ciphertext
 
+    #input: bytestring, int[4], int[2]
     @staticmethod
     def decrypt(ciphertext, key, iv):
         if len(ciphertext) % 8 != 0:
