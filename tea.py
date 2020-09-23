@@ -50,11 +50,11 @@ class Wrapper:
         return text
 
     @staticmethod
-    def pad_hex(hex):
-        while len(hex) % 8 != 0:
-            hex += "0"
+    def pad_hex(hexi):
+        while len(hexi) % 8 != 0:
+            hexi += "0"
 
-        return hex
+        return hexi
 
     @staticmethod
     def split_string(s, n):
