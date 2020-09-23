@@ -73,9 +73,9 @@ class Wrapper:
 
         if cipher == "ECB":
             if mode == "e":
-                print (TEA_ECB.encrypt(text, key, iv))
+                print (TEA_ECB.encrypt(text, key))
             elif mode == "d":
-                print (TEA_ECB.decrypt(text, key, iv))
+                print (TEA_ECB.decrypt(text, key))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
