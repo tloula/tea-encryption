@@ -6,8 +6,8 @@
 
 import sys
 from tea_cbc import TEA_CBC
-from tea_cbc import TEA_CTR
-from tea_cbc import TEA_ECB
+from tea_ctr import TEA_CTR
+from tea_ecb import TEA_ECB
 
 class Wrapper:
 
