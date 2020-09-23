@@ -17,9 +17,10 @@ class Wrapper:
         key = Wrapper.read_file(args[4])
         iv = Wrapper.read_file(args[5])
 
-        keys = [hex(int(x, 16)) for x in Wrapper.split_key(key)]
+        keys = [x for x in Wrapper.split_key(key)]
+        ivs = [x for x in Wrapper.split_iv(iv)]
 
-        return mode, cipher, text, keys, iv
+        return mode, cipher, text, keys, ivs
 
     @staticmethod
     def read_file(filepath):
@@ -31,24 +32,41 @@ class Wrapper:
         else:
             try:
                 text = f.read()
-                if "-H" in filepath and "key" not in filepath:
-                    text = str(int(text, 16))
-                return Wrapper.pad_text(text)
+                if "-H" in filepath:
+                    text = Wrapper.pad_text(str(int(text, 16)))
+                else:
+                    text = Wrapper.pad_hex(text)
+                return text
             finally:
                 f.close()
 
     @staticmethod
     def pad_text(text):
-        while len(text) % 16 != 0:
+        while len(text) % 8 != 0:
             text += " "
 
         return text
+
+    @staticmethod
+    def pad_hex(hex):
+        while len(hex) % 8 != 0:
+            hex += "0"
+
+        return hex
     
     @staticmethod
     def split_key(key):
         indices = [0, 8, 16, 24]
+        print ("Presplit key:", key, "END")
         keys = [str(key)[i:j] for i,j in zip(indices, indices[1:]+[None])]
         return keys
+
+    @staticmethod
+    def split_iv(iv):
+        indices = [0, 10]
+        print ("Presplit iv", iv, "END")
+        ivs = [str(iv)[i:j] for i,j in zip(indices, indices[1:]+[None])]
+        return ivs
 
     @staticmethod
     def run_tea(params):
@@ -70,7 +88,8 @@ class Wrapper:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
-                TEA_CBC.encrypt(text, key, iv)
+                iv = [32, 64]
+                print (TEA_CBC.encrypt(text.encode(), key, iv))
             elif mode == "d":
                 pass
             else:
