@@ -111,7 +111,10 @@ class Wrapper:
 
 def main(args):
 
-    # python tea.py -e -CBC  assignment-files/Practice/practice_ECB-H.plain assignment-files/teacher-H.key assignment-files/teacher-H.iv
+    # python tea.py -d -ECB -h assignment-files/Ciphertexts/mystery1_ECB-H.crypt assignment-files/teacher-H.key assignment-files/teacher-H.iv
+    # python tea.py -d -ECB -s assignment-files/Ciphertexts/mystery2_ECB-S.crypt assignment-files/teacher-H.key assignment-files/teacher-H.iv
+    # python tea.py -d -CBC -s assignment-files/Ciphertexts/mystery3_CBC-S.crypt assignment-files/teacher-H.key assignment-files/teacher-H.iv
+    # python tea.py -d -CTR -s assignment-files/Ciphertexts/mystery4_CTR-S.crypt assignment-files/teacher-H.key assignment-files/teacher-H.iv
 
     if len(args) != 7:
         print("Usage: python tea.py -mode -cipher -format plaintext key initialization_vector")
