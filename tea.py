@@ -19,8 +19,8 @@ class Wrapper:
         key = Wrapper.read_file(args[4])
         iv = Wrapper.read_file(args[5])
 
-        keys = [x for x in Wrapper.split_string(key)]
-        ivs = [x for x in Wrapper.split_string(iv)]
+        keys = [x for x in Wrapper.split_string(key, 4)]
+        ivs = [x for x in Wrapper.split_string(iv, 4)]
 
         return mode, cipher, text, keys, ivs
 
@@ -57,8 +57,7 @@ class Wrapper:
         return hex
 
     @staticmethod
-    def split_string(s):
-        n = 4
+    def split_string(s, n):
         return [s[i:i+n] for i in range(0, len(s), n)]
 
     @staticmethod
