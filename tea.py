@@ -46,7 +46,7 @@ class Wrapper:
     @staticmethod
     def pad_text(text):
         while len(text) % 8 != 0:
-            text += " "
+            text += b" "
 
         return text
 
