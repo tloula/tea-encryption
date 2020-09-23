@@ -17,8 +17,8 @@ class Wrapper:
         key = Wrapper.read_file(args[4])
         iv = Wrapper.read_file(args[5])
 
-        keys = [x for x in Wrapper.split_key(key)]
-        ivs = [x for x in Wrapper.split_iv(iv)]
+        keys = [x for x in Wrapper.split_string(key)]
+        ivs = [x for x in Wrapper.split_string(iv)]
 
         return mode, cipher, text, keys, ivs
 
@@ -33,10 +33,10 @@ class Wrapper:
             try:
                 text = f.read()
                 if "-H" in filepath:
-                    text = Wrapper.pad_text(str(int(text, 16)))
-                else:
                     text = Wrapper.pad_hex(text)
-                return text
+                else:
+                    text = Wrapper.pad_text(text)
+                return text.encode()
             finally:
                 f.close()
 
@@ -53,20 +53,11 @@ class Wrapper:
             hex += "0"
 
         return hex
-    
-    @staticmethod
-    def split_key(key):
-        indices = [0, 8, 16, 24]
-        print ("Presplit key:", key, "END")
-        keys = [str(key)[i:j] for i,j in zip(indices, indices[1:]+[None])]
-        return keys
 
     @staticmethod
-    def split_iv(iv):
-        indices = [0, 10]
-        print ("Presplit iv", iv, "END")
-        ivs = [str(iv)[i:j] for i,j in zip(indices, indices[1:]+[None])]
-        return ivs
+    def split_string(s):
+        n = 8
+        return [s[i:i+n] for i in range(0, len(s), n)]
 
     @staticmethod
     def run_tea(params):
@@ -89,7 +80,7 @@ class Wrapper:
         elif cipher == "CBC":
             if mode == "e":
                 iv = [32, 64]
-                print (TEA_CBC.encrypt(text.encode(), key, iv))
+                print (TEA_CBC.encrypt(text, key, iv))
             elif mode == "d":
                 pass
             else:
