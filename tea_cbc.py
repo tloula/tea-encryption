@@ -18,7 +18,7 @@ class TEA_CBC(tea_algorithm.TEA):
             print("Bad plaintext length")
             return b""
         ciphertext = b""
-        for i in range(0, len(plaintext)-8, 8):
+        for i in range(0, len(plaintext), 8):
             temp = [int.from_bytes(plaintext[i:i+4], "big") ^ iv[0], int.from_bytes(plaintext[i+4:i+8], "big") ^ iv[1]]
             (ivLeft, ivRight) = tea_algorithm.TEA.encrypt(temp, key)
             ciphertext += ivLeft.to_bytes(4, "big")
@@ -33,7 +33,7 @@ class TEA_CBC(tea_algorithm.TEA):
             print("Bad ciphertext length")
             return b""
         plaintext = b""
-        for i in range(0, len(ciphertext)-8, 8):
+        for i in range(0, len(ciphertext), 8):
             temp = [int.from_bytes(ciphertext[i:i+4], "big"), int.from_bytes(ciphertext[i+4:i+8], "big")]
             (Ltemp, Rtemp) = tea_algorithm.TEA.decrypt(temp, key)
             plaintext += (Ltemp ^ iv[0]).to_bytes(4, "big")

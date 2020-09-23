@@ -14,12 +14,15 @@ def test():
     v = b"abcdefghabcdefghabcdefghabcdefgh"
     ciphertext = TEA_CBC.encrypt(v, k, iv)
     print(ciphertext)
+    print(len(ciphertext))
     print(iv)
     print(v)
+    print(len(v))
     plaintext = TEA_CBC.decrypt(ciphertext, k, iv)
     print(ciphertext)
     print(iv)
     print(v)
     print(plaintext)
+    print(len(plaintext))
 
 test()
