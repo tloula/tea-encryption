@@ -6,6 +6,8 @@
 
 import sys
 from tea_cbc import TEA_CBC
+from tea_cbc import TEA_CTR
+from tea_cbc import TEA_ECB
 
 class Wrapper:
 
@@ -17,9 +19,10 @@ class Wrapper:
         key = Wrapper.read_file(args[4])
         iv = Wrapper.read_file(args[5])
 
-        keys = [hex(int(x, 16)) for x in Wrapper.split_key(key)]
+        keys = [x for x in Wrapper.split_string(key)]
+        ivs = [x for x in Wrapper.split_string(iv)]
 
-        return mode, cipher, text, keys, iv
+        return mode, cipher, text, keys, ivs
 
     @staticmethod
     def read_file(filepath):
@@ -31,24 +34,32 @@ class Wrapper:
         else:
             try:
                 text = f.read()
-                if "-H" in filepath and "key" not in filepath:
-                    text = str(int(text, 16))
-                return Wrapper.pad_text(text)
+                if "-H" in filepath:
+                    text = Wrapper.pad_hex(text)
+                else:
+                    text = Wrapper.pad_text(text)
+                return text.encode()
             finally:
                 f.close()
 
     @staticmethod
     def pad_text(text):
-        while len(text) % 16 != 0:
+        while len(text) % 8 != 0:
             text += " "
 
         return text
-    
+
     @staticmethod
-    def split_key(key):
-        indices = [0, 8, 16, 24]
-        keys = [str(key)[i:j] for i,j in zip(indices, indices[1:]+[None])]
-        return keys
+    def pad_hex(hex):
+        while len(hex) % 8 != 0:
+            hex += "0"
+
+        return hex
+
+    @staticmethod
+    def split_string(s):
+        n = 8
+        return [s[i:i+n] for i in range(0, len(s), n)]
 
     @staticmethod
     def run_tea(params):
@@ -61,27 +72,23 @@ class Wrapper:
 
         if cipher == "ECB":
             if mode == "e":
-                # Pass Ian a Byte String
-                # TODO
-                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+                print (TEA_ECB.encrypt(text, key, iv))
             elif mode == "d":
-                pass
+                print (TEA_ECB.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
-                TEA_CBC.encrypt(text, key, iv)
+                print (TEA_CBC.encrypt(text, key, iv))
             elif mode == "d":
-                pass
+                print (TEA_CBC.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CTR":
             if mode == "e":
-                # Pass Ian a Byte String
-                # TODO
-                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+                print (TEA_CTR.encrypt(text, key, iv))
             elif mode == "d":
-                pass
+                print (TEA_CTR.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         else:
