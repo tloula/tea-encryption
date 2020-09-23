@@ -114,7 +114,7 @@ def main(args):
     # python tea.py -e -CBC  assignment-files/Practice/practice_ECB-H.plain assignment-files/teacher-H.key assignment-files/teacher-H.iv
 
     if len(args) != 7:
-        print("Usage: python tea.py -mode -cipher plaintext key initialization_vector")
+        print("Usage: python tea.py -mode -cipher -format plaintext key initialization_vector")
         print("-mode: -e, -d")
         print("-cipher: ECB, CBC, CTR")
         print("-output: -h -s")
