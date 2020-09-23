@@ -14,7 +14,7 @@ class TEA_ECB(tea_algorithm.TEA):
     #input: bytestring, int[4], int[2]
     @staticmethod
     def encrypt(plaintext, key):
-        key = [int(key[0]), int(key[1]), int(key[2]), int(key[3])]
+        key = [int.from_bytes(key[0], "big"), int.from_bytes(key[1], "big"), int.from_bytes(key[2], "big"), int.from_bytes(key[3], "big")]
         if len(plaintext) % 8 != 0:
             print("Bad plaintext length")
             return b""
@@ -29,7 +29,7 @@ class TEA_ECB(tea_algorithm.TEA):
     #input: bytestring, int[4], int[2]
     @staticmethod
     def decrypt(ciphertext, key):
-        key = [int(key[0]), int(key[1]), int(key[2]), int(key[3])]
+        key = [int.from_bytes(key[0], "big"), int.from_bytes(key[1], "big"), int.from_bytes(key[2], "big"), int.from_bytes(key[3], "big")]
         if len(ciphertext) % 8 != 0:
             print("Bad ciphertext length")
             return b""
