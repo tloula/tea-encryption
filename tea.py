@@ -65,8 +65,8 @@ class Wrapper:
     def run_tea(params):
         mode, cipher, output, text, key, iv = params
 
-        print ("cipher:", cipher)   # ECB, CBC, or CTR
-        print ("text:", text.hex()) # The Plaintext or Ciphertext
+        print ("mode:", cipher)   # ECB, CBC, or CTR
+        #print ("text:", text.hex()) # The Plaintext or Ciphertext
         print ("key:", key)         # Key
         print ("iv:", iv)           # Initialization Vector
 
