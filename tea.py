@@ -96,7 +96,6 @@ class Wrapper:
             if mode == "e":
                 print ("Ciphertext:", TEA_CTR.encrypt(text, key, iv).hex())
             elif mode == "d":
-                print ("Plaintext:", TEA_CTR.decrypt(text, key, iv).decode(errors="replace"))
                 if output == "-h":
                     print ("Plaintext:", TEA_CTR.decrypt(text, key, iv).hex())
                 else:
