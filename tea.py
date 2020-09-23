@@ -27,7 +27,7 @@ class Wrapper:
     @staticmethod
     def read_file(filepath):
         try:
-            f = open(filepath, "rt")
+            f = open(filepath, "rb")
         except FileNotFoundError as e:
             print ("File", filepath, "not found")
             exit()
@@ -36,10 +36,9 @@ class Wrapper:
                 text = f.read()
                 if "-H" in filepath:
                     text = Wrapper.pad_hex(text)
-                    return bytes.fromhex(text)
+                    return bytes.fromhex(text.decode())
                 else:
-                    text = Wrapper.pad_text(text)
-                    return text.encode()
+                    return Wrapper.pad_text(text)
             finally:
                 f.close()
 
@@ -67,29 +66,29 @@ class Wrapper:
         mode, cipher, text, key, iv = params
 
         print ("cipher:", cipher)   # ECB, CBC, or CTR
-        print ("text:", text)       # The Plaintext or Ciphertext
+        print ("text:", text.hex()) # The Plaintext or Ciphertext
         print ("key:", key)         # Key
         print ("iv:", iv)           # Initialization Vector
 
         if cipher == "ECB":
             if mode == "e":
-                print ("Ciphertext:", TEA_ECB.encrypt(text, key))
+                print ("Ciphertext:", TEA_ECB.encrypt(text, key).hex())
             elif mode == "d":
-                print ("Plaintext:", TEA_ECB.decrypt(text, key))
+                print ("Plaintext:", TEA_ECB.decrypt(text, key).decode(errors="replace"))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
-                print ("Ciphertext:", TEA_CBC.encrypt(text, key, iv))
+                print ("Ciphertext:", TEA_CBC.encrypt(text, key, iv).hex())
             elif mode == "d":
-                print ("Plaintext:", TEA_CBC.decrypt(text, key, iv))
+                print ("Plaintext:", TEA_CBC.decrypt(text, key, iv).decode(errors="replace"))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CTR":
             if mode == "e":
-                print ("Ciphertext:", TEA_CTR.encrypt(text, key, iv))
+                print ("Ciphertext:", TEA_CTR.encrypt(text, key, iv).hex())
             elif mode == "d":
-                print ("Plaintext:", TEA_CTR.decrypt(text, key, iv))
+                print ("Plaintext:", TEA_CTR.decrypt(text, key, iv).decode(errors="replace"))
             else:
                 print ("Invalid operation mode")
         else:
