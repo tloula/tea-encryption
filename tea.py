@@ -31,10 +31,9 @@ class Wrapper:
         else:
             try:
                 text = f.read()
-                text = Wrapper.pad_text(text)
                 if "-H" in filepath and "key" not in filepath:
-                    text = int(text, 16)
-                return text
+                    text = str(int(text, 16))
+                return Wrapper.pad_text(text)
             finally:
                 f.close()
 
@@ -66,12 +65,14 @@ class Wrapper:
                 # TODO
                 print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
             elif mode == "d":
+                pass
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
                 TEA_CBC.encrypt(text, key, iv)
             elif mode == "d":
+                pass
             else:
                 print ("Invalid operation mode")
         elif cipher == "CTR":
@@ -80,6 +81,7 @@ class Wrapper:
                 # TODO
                 print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
             elif mode == "d":
+                pass
             else:
                 print ("Invalid operation mode")
         else:
