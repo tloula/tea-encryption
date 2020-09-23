@@ -1,5 +1,5 @@
 # ********************************************* #
-# Tiny Encryption Algorithm CBC Implementation  #
+# Tiny Encryption Algorithm ECB Implementation  #
 # Ian Bolin & Trevor Loula                      #
 # CS-3350 Foundations of Computer Security      #
 # ********************************************* #
