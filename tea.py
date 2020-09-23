@@ -36,7 +36,7 @@ class Wrapper:
                 text = f.read()
                 if "-H" in filepath:
                     text = Wrapper.pad_hex(text)
-                    return text.decode("hex")
+                    return bytes.fromhex(text)
                 else:
                     text = Wrapper.pad_text(text)
                     return text.encode()
@@ -100,7 +100,7 @@ class Wrapper:
 
 def main(args):
 
-    # python tea.py -e -ECB  assignment-files/Practice/practice_ECB-H.plain assignment-files/teacher-H.key assignment-files/teacher-H.iv
+    # python tea.py -e -CBC  assignment-files/Practice/practice_ECB-H.plain assignment-files/teacher-H.key assignment-files/teacher-H.iv
 
     if len(args) != 6:
         print("Usage: python tea.py -mode -cipher plaintext key initialization_vector")
