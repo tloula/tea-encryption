@@ -6,6 +6,8 @@
 
 import sys
 from tea_cbc import TEA_CBC
+from tea_cbc import TEA_CTR
+from tea_cbc import TEA_ECB
 
 class Wrapper:
 
@@ -70,28 +72,23 @@ class Wrapper:
 
         if cipher == "ECB":
             if mode == "e":
-                # Pass Ian a Byte String
-                # TODO
-                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+                print (TEA_ECB.encrypt(text, key, iv))
             elif mode == "d":
-                pass
+                print (TEA_ECB.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
-                iv = [32, 64]
                 print (TEA_CBC.encrypt(text, key, iv))
             elif mode == "d":
-                pass
+                print (TEA_CBC.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CTR":
             if mode == "e":
-                # Pass Ian a Byte String
-                # TODO
-                print (text.to_bytes((text.bit_length() + 7) // 8, 'big')) # ?
+                print (TEA_CTR.encrypt(text, key, iv))
             elif mode == "d":
-                pass
+                print (TEA_CTR.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         else:
