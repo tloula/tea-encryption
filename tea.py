@@ -15,14 +15,15 @@ class Wrapper:
     def parse_input(args):
         mode = args[1][1:3]
         cipher = args[2][1:4]
-        text = Wrapper.read_file(args[3])
-        key = Wrapper.read_file(args[4])
-        iv = Wrapper.read_file(args[5])
+        output = args[3]
+        text = Wrapper.read_file(args[4])
+        key = Wrapper.read_file(args[5])
+        iv = Wrapper.read_file(args[6])
 
         keys = [x for x in Wrapper.split_string(key, 4)]
         ivs = [x for x in Wrapper.split_string(iv, 4)]
 
-        return mode, cipher, text, keys, ivs
+        return mode, cipher, output, text, keys, ivs
 
     @staticmethod
     def read_file(filepath):
@@ -62,7 +63,7 @@ class Wrapper:
 
     @staticmethod
     def run_tea(params):
-        mode, cipher, text, key, iv = params
+        mode, cipher, output, text, key, iv = params
 
         print ("cipher:", cipher)   # ECB, CBC, or CTR
         print ("text:", text.hex()) # The Plaintext or Ciphertext
@@ -73,14 +74,20 @@ class Wrapper:
             if mode == "e":
                 print ("Ciphertext:", TEA_ECB.encrypt(text, key).hex())
             elif mode == "d":
-                print ("Plaintext:", TEA_ECB.decrypt(text, key).decode(errors="replace"))
+                if output == "-h":
+                    print ("Plaintext:", TEA_ECB.decrypt(text, key).hex())
+                else:
+                    print ("Plaintext:", TEA_ECB.decrypt(text, key).decode())
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
                 print ("Ciphertext:", TEA_CBC.encrypt(text, key, iv).hex())
             elif mode == "d":
-                print ("Plaintext:", TEA_CBC.decrypt(text, key, iv).decode(errors="replace"))
+                if output == "-h":
+                    print ("Plaintext:", TEA_CBC.decrypt(text, key, iv).hex())
+                else:
+                    print ("Plaintext:", TEA_CBC.decrypt(text, key, iv).decode())
             else:
                 print ("Invalid operation mode")
         elif cipher == "CTR":
@@ -88,6 +95,10 @@ class Wrapper:
                 print ("Ciphertext:", TEA_CTR.encrypt(text, key, iv).hex())
             elif mode == "d":
                 print ("Plaintext:", TEA_CTR.decrypt(text, key, iv).decode(errors="replace"))
+                if output == "-h":
+                    print ("Plaintext:", TEA_CTR.decrypt(text, key, iv).hex())
+                else:
+                    print ("Plaintext:", TEA_CTR.decrypt(text, key, iv).decode())
             else:
                 print ("Invalid operation mode")
         else:
@@ -100,10 +111,11 @@ def main(args):
 
     # python tea.py -e -CBC  assignment-files/Practice/practice_ECB-H.plain assignment-files/teacher-H.key assignment-files/teacher-H.iv
 
-    if len(args) != 6:
+    if len(args) != 7:
         print("Usage: python tea.py -mode -cipher plaintext key initialization_vector")
         print("-mode: -e, -d")
         print("-cipher: ECB, CBC, CTR")
+        print("-output: -h -s")
         print("i.e. python tea.py -e -ECB plaintext.plain key.key initialization_vector.iv")
         exit()
 
