@@ -46,14 +46,14 @@ class Wrapper:
     @staticmethod
     def pad_text(text):
         while len(text) % 8 != 0:
-            text += " "
+            text += b" "
 
         return text
 
     @staticmethod
     def pad_hex(hexi):
         while len(hexi) % 8 != 0:
-            hexi += "0"
+            hexi += b"0"
 
         return hexi
 
@@ -83,6 +83,8 @@ class Wrapper:
         elif cipher == "CBC":
             if mode == "e":
                 print ("Ciphertext:", TEA_CBC.encrypt(text, key, iv).hex())
+                f = open("test", "wb")
+                f.write(TEA_CBC.encrypt(text, key, iv))
             elif mode == "d":
                 if output == "-h":
                     print ("Plaintext:", TEA_CBC.decrypt(text, key, iv).hex())
