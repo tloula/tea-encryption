@@ -59,7 +59,7 @@ class Wrapper:
 
     @staticmethod
     def split_string(s):
-        n = 8
+        n = 4
         return [s[i:i+n] for i in range(0, len(s), n)]
 
     @staticmethod
@@ -73,23 +73,23 @@ class Wrapper:
 
         if cipher == "ECB":
             if mode == "e":
-                print (TEA_ECB.encrypt(text, key))
+                print ("Ciphertext:", TEA_ECB.encrypt(text, key))
             elif mode == "d":
-                print (TEA_ECB.decrypt(text, key))
+                print ("Plaintext:", TEA_ECB.decrypt(text, key))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CBC":
             if mode == "e":
-                print (TEA_CBC.encrypt(text, key, iv))
+                print ("Ciphertext:", TEA_CBC.encrypt(text, key, iv))
             elif mode == "d":
-                print (TEA_CBC.decrypt(text, key, iv))
+                print ("Plaintext:", TEA_CBC.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         elif cipher == "CTR":
             if mode == "e":
-                print (TEA_CTR.encrypt(text, key, iv))
+                print ("Ciphertext:", TEA_CTR.encrypt(text, key, iv))
             elif mode == "d":
-                print (TEA_CTR.decrypt(text, key, iv))
+                print ("Plaintext:", TEA_CTR.decrypt(text, key, iv))
             else:
                 print ("Invalid operation mode")
         else:
